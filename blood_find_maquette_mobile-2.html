@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#991b1b">
+<title>BLOOD-FIND — Maquette</title>
+<style>
+:root{--red:#991b1b;--red2:#b91c1c;--ink:#171717;--muted:#6b7280;--bg:#f4f5f7;--green:#15803d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial, sans-serif;color:var(--ink);padding-bottom:82px}
+header{background:var(--red);color:white;padding:18px 17px 20px;position:sticky;top:0;z-index:2;box-shadow:0 3px 12px #0002}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:21px}.drop{font-size:27px}.tag{font-size:12px;opacity:.9;margin:4px 0 0 39px}
+main{max-width:560px;margin:auto;padding:16px}
+h1{font-size:22px;margin:5px 0 6px}.sub{color:var(--muted);font-size:14px;line-height:1.45;margin:0 0 17px}
+.card{background:white;border-radius:17px;padding:16px;margin:12px 0;box-shadow:0 3px 12px #1111}
+.label{font-size:13px;font-weight:700;margin:14px 0 9px;display:block}
+.groups{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.group{border:1px solid #e5e7eb;background:white;border-radius:12px;padding:12px 4px;font-weight:800;font-size:16px;color:#333}
+.group.active{background:var(--red);border-color:var(--red);color:white}
+select,input{width:100%;padding:14px;border:1px solid #d1d5db;border-radius:11px;background:white;font-size:15px}
+.primary{width:100%;border:0;border-radius:12px;background:var(--red);color:white;font-size:16px;font-weight:700;padding:15px;margin-top:16px;min-height:49px}
+.note{font-size:11px;color:#6b7280;line-height:1.45;margin:12px 2px}
+.result{border:1px solid #eee;border-radius:14px;padding:14px;margin-top:12px}
+.result h3{font-size:15px;margin:0 0 7px}.badge{display:inline-block;background:#dcfce7;color:#166534;padding:5px 8px;border-radius:20px;font-size:11px;font-weight:700}
+.qty{font-size:23px;font-weight:800;color:var(--red);margin:10px 0 3px}.small{font-size:12px;color:var(--muted);line-height:1.5}
+.call{display:block;text-align:center;text-decoration:none;background:#15803d;color:white;padding:12px;border-radius:10px;font-weight:700;margin-top:12px}
+.empty{padding:20px;text-align:center;color:var(--muted);font-size:14px}
+nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #e5e7eb;display:grid;grid-template-columns:repeat(4,1fr);padding:7px 4px calc(7px + env(safe-area-inset-bottom));z-index:3}
+nav button{border:0;background:white;color:#6b7280;font-size:11px;padding:6px 1px;font-weight:600}
+nav button span{display:block;font-size:20px;margin-bottom:3px}
+nav button.active{color:var(--red)}
+.section{display:none}.section.active{display:block}
+.alert{border-left:4px solid var(--red);background:#fff1f2;padding:12px;border-radius:9px;font-size:13px;line-height:1.45}
+@media(min-width:560px){main{padding:22px}}
+</style>
+</head>
+<body>
+<header><div class="brand"><span class="drop">🩸</span> BLOOD-FIND</div><div class="tag">Trouver du sang. Donner de l'espoir. Sauver des vies.</div></header>
+<main>
+<section id="search" class="section active">
+<h1>Rechercher du sang</h1>
+<p class="sub">Trouvez les banques de sang et les stocks déclarés près de votre ville.</p>
+<div class="card">
+<span class="label">1. Choisissez le groupe sanguin</span>
+<div class="groups" id="groups">
+<button class="group" data-group="A+">A+</button><button class="group" data-group="A-">A-</button>
+<button class="group" data-group="B+">B+</button><button class="group" data-group="B-">B-</button>
+<button class="group" data-group="AB+">AB+</button><button class="group" data-group="AB-">AB-</button>
+<button class="group" data-group="O+">O+</button><button class="group" data-group="O-">O-</button>
+</div>
+<label class="label" for="city">2. Choisissez la ville</label>
+<select id="city"><option value="">Toutes les villes</option><option>Yaoundé</option><option>Douala</option><option>Bafoussam</option><option>Garoua</option><option>Bamenda</option><option>Maroua</option><option>Ngaoundéré</option><option>Bertoua</option><option>Kribi</option><option>Ebolowa</option></select>
+<button class="primary" onclick="searchBlood()">Trouver les poches disponibles</button>
+<p class="note">Maquette de démonstration : les établissements et stocks affichés ci-dessous sont fictifs. Aucune disponibilité réelle n'est confirmée.</p>
+</div>
+<div id="results"><div class="empty">Sélectionnez un groupe sanguin puis lancez la recherche.</div></div>
+</section>
+<section id="urgent" class="section">
+<h1>Urgences</h1><p class="sub">Demandes urgentes publiées par les établissements de santé vérifiés.</p>
+<div class="alert"><b>Important :</b> cette maquette ne transmet aucune alerte réelle. En cas d'urgence, contactez directement un établissement de santé.</div>
+<div class="card"><b>Aucune demande urgente publiée</b><p class="small">Les demandes vérifiées apparaîtront ici lorsque la plateforme sera connectée à sa base de données.</p></div>
+</section>
+<section id="banks" class="section">
+<h1>Banques de sang</h1><p class="sub">Répertoire des centres dont les informations auront été vérifiées.</p>
+<div class="card"><b>Répertoire en préparation</b><p class="small">Les coordonnées, agréments et horaires seront affichés après validation par l'administrateur national.</p></div>
+</section>
+<section id="donor" class="section">
+<h1>Espace donneur</h1><p class="sub">Manifestez votre intérêt pour le don volontaire de sang.</p>
+<div class="card"><label class="label">Nom ou pseudonyme</label><input placeholder="Votre nom"><label class="label">Ville</label><select><option>Choisir une ville</option><option>Yaoundé</option><option>Douala</option><option>Bafoussam</option><option>Garoua</option></select><label class="label">Groupe sanguin (si connu)</label><select><option>Je ne connais pas mon groupe</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select><p class="note">Le formulaire réel devra être sécurisé. Le nom et le téléphone des donneurs ne seront jamais visibles publiquement.</p><button class="primary" onclick="alert('Démonstration uniquement : aucune inscription n’a été enregistrée.')">Continuer</button></div>
+</section>
+</main>
+<nav>
+<button class="active" data-tab="search"><span>🔍</span>Recherche</button>
+<button data-tab="urgent"><span>🚨</span>Urgences</button>
+<button data-tab="banks"><span>🏥</span>Banques</button>
+<button data-tab="donor"><span>🩸</span>Donneur</button>
+</nav>
+<script>
+let selected='';
+document.querySelectorAll('.group').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.group').forEach(x=>x.classList.remove('active'));b.classList.add('active');selected=b.dataset.group;}));
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.tab).classList.add('active');window.scrollTo(0,0);}));
+function searchBlood(){
+ const city=document.getElementById('city').value;
+ const box=document.getElementById('results');
+ if(!selected){box.innerHTML='<div class="empty">Veuillez choisir un groupe sanguin.</div>';return;}
+ const place=city||'Yaoundé';
+ box.innerHTML=`<div class="result"><h3>Centre de démonstration — ${place}</h3><span class="badge">Exemple fictif · non vérifié</span><div class="qty">Exemple : 4 poches ${selected}</div><div class="small">Dernière mise à jour : donnée fictive<br>Adresse : information de démonstration</div><a class="call" href="#" onclick="alert('Numéro fictif : aucun appel ne sera lancé.');return false">Contacter le centre (démo)</a></div><p class="note">Ces données servent uniquement à tester l'écran. Ne prenez aucune décision médicale à partir de cette maquette.</p>`;
+}
+</script>
+</body></html>
