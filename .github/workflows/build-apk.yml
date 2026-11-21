@@ -1,0 +1,59 @@
+name: Build BLOOD-FIND Android APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Installer Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Préparer l'application
+        run: |
+          mkdir blood-find-app
+          cd blood-find-app
+          npm init -y
+          npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6
+          mkdir www
+          echo '<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"></head><body></body></html>' > www/index.html
+          npx cap init BLOOD-FIND com.bloodfind.cameroon --web-dir www
+          npx cap add android
+
+      - name: Configurer le site BLOOD-FIND
+        working-directory: blood-find-app
+        run: |
+          cat > capacitor.config.json <<'EOF'
+          {
+            "appId": "com.bloodfind.cameroon",
+            "appName": "BLOOD-FIND",
+            "webDir": "www",
+            "server": {
+              "url": "https://simplice0703.github.io/blood-find-cam/",
+              "cleartext": false
+            }
+          }
+          EOF
+          npx cap sync android
+
+      - name: Construire APK
+        working-directory: blood-find-app/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Télécharger APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: BLOOD-FIND-APK
+          path: blood-find-app/android/app/build/outputs/apk/debug/app-debug.apk
