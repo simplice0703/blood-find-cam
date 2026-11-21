@@ -1,0 +1,20 @@
+{
+"id": "/blood-find-cam/",
+"name": "BLOOD-FIND – Blood Donation & Search Cameroon",
+"short_name": "BLOOD-FIND",
+"description": "Plateforme nationale de recherche de sang et de donneurs volontaires au Cameroun. National platform for finding blood supplies and voluntary blood donors in Cameroon.",
+"lang": "fr",
+"dir": "ltr",
+"start_url": "/blood-find-cam/",
+"scope": "/blood-find-cam/",
+"display": "standalone",
+"orientation": "portrait",
+"background_color": "#ffffff",
+"theme_color": "#b5122b",
+"categories": [
+"medical",
+"health",
+"utilities"
+],
+"prefer_related_applications": false
+}
