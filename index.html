@@ -1,11 +1,14 @@
-<!DOCTYPE html><html lang="fr">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#b5122b">
 <meta name="description" content="BLOOD-FIND : plateforme de recherche de sang et de donneurs volontaires au Cameroun.">
 <link rel="manifest" href="/blood-find-cam/manifest.webmanifest">
-<title>BLOOD-FIND | Sauver des vies</title><style>
+<title>BLOOD-FIND | Sauver des vies</title>
+
+<style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,sans-serif;background:#f5f6fa;color:#252525}
 header{background:#b5122b;color:white;padding:15px;position:sticky;top:0;z-index:10}
@@ -37,15 +40,26 @@ footer{background:#26232a;color:white;padding:25px 18px;text-align:center;line-h
 .small{font-size:13px;color:#777}
 section{scroll-margin-top:85px}
 button:focus-visible,a:focus-visible{outline:3px solid #ffbdc9;outline-offset:3px}
-@media(max-width:360px){.logo{font-size:18px}.groups{gap:6px}.group{padding:12px 3px}}
-</style></head><body><header>
+@media(max-width:360px){
+.logo{font-size:18px}
+.groups{gap:6px}
+.group{padding:12px 3px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
 <div class="top">
 <div class="logo">🩸 BLOOD-<span>FIND</span></div>
 <div class="header-actions">
 <button class="lang" id="langButton" onclick="changeLanguage()">🇬🇧 EN</button>
 <div class="menu" onclick="toggleMenu()" aria-label="Menu">☰</div>
 </div>
-</div><nav id="menu">
+</div>
+
+<nav id="menu">
 <a href="#accueil" onclick="toggleMenu()" data-i18n="home">Accueil</a>
 <a href="#recherche" onclick="toggleMenu()" data-i18n="search">Rechercher du sang</a>
 <a href="#banques" onclick="toggleMenu()" data-i18n="banks">Banques de sang</a>
@@ -54,14 +68,21 @@ button:focus-visible,a:focus-visible{outline:3px solid #ffbdc9;outline-offset:3p
 <a href="#contact" onclick="toggleMenu()" data-i18n="contact">Contact</a>
 <a href="#administration" onclick="toggleMenu()" data-i18n="admin">Administration</a>
 </nav>
-</header><section class="hero" id="accueil">
+</header>
+
+<section class="hero" id="accueil">
 <h1 data-i18n="heroTitle">UNE GOUTTE DE SANG<br>PEUT SAUVER UNE VIE ❤️</h1>
 <p data-i18n="heroText">Trouvez des donneurs volontaires et des banques de sang partout au Cameroun.</p>
 <a href="#recherche" class="btn btn-white" data-i18n="heroButton">RECHERCHER DU SANG</a>
-</section><main class="container"><section id="recherche">
-<h2 class="title" data-i18n="searchTitle">🔎 Recherche de sang</h2>
-<div class="card"><label data-i18n="bloodGroup">Groupe sanguin recherché</label>
+</section>
 
+<main class="container">
+
+<section id="recherche">
+<h2 class="title" data-i18n="searchTitle">🔎 Recherche de sang</h2>
+<div class="card">
+
+<label data-i18n="bloodGroup">Groupe sanguin recherché</label>
 <div class="groups" id="groups">
 <div class="group" onclick="chooseGroup(this)">A+</div>
 <div class="group" onclick="chooseGroup(this)">A-</div>
@@ -71,9 +92,10 @@ button:focus-visible,a:focus-visible{outline:3px solid #ffbdc9;outline-offset:3p
 <div class="group" onclick="chooseGroup(this)">AB-</div>
 <div class="group" onclick="chooseGroup(this)">O+</div>
 <div class="group" onclick="chooseGroup(this)">O-</div>
-</div><label data-i18n="region">Région</label>
-<select id="region" onchange="loadCities()">
+</div>
 
+<label data-i18n="region">Région</label>
+<select id="region" onchange="loadCities()">
 <option value="" data-i18n="allRegions">Toutes les régions</option>
 <option value="Adamaoua">Adamaoua</option>
 <option value="Centre">Centre</option>
@@ -85,28 +107,36 @@ button:focus-visible,a:focus-visible{outline:3px solid #ffbdc9;outline-offset:3p
 <option value="Ouest">Ouest</option>
 <option value="Sud">Sud</option>
 <option value="SudOuest">Sud-Ouest</option>
-</select><label data-i18n="city">Ville</label>
+</select>
+
+<label data-i18n="city">Ville</label>
 <select id="ville">
-
 <option value="" data-i18n="allCities">Toutes les villes</option>
-</select><button class="btn btn-red" style="width:100%" onclick="searchBlood()" data-i18n="searchButton">RECHERCHER</button>
+</select>
 
+<button class="btn btn-red" style="width:100%" onclick="searchBlood()" data-i18n="searchButton">RECHERCHER</button>
 <button class="btn" style="width:100%;margin-top:10px;background:#eee" onclick="locateMe()" data-i18n="locate">📍 Me localiser</button>
 
 <p id="result" class="info hidden" style="margin-top:15px"></p>
 </div>
-</section><section id="banques">
+</section>
+
+<section id="banques">
 <h2 class="title" data-i18n="banksTitle">🏥 Banques de sang</h2>
 <div class="card">
 <p data-i18n="banksText">Consultez les banques de sang, les hôpitaux et leurs disponibilités dans les différentes régions du Cameroun.</p>
 <br>
 <div class="info" data-i18n="banksInfo">Les établissements et les stocks réels seront affichés après connexion à la base de données.</div>
 </div>
-</section><section id="donneur">
+</section>
+
+<section id="donneur">
 <h2 class="title" data-i18n="donorTitle">❤️ Devenir donneur volontaire</h2>
 <div class="card">
 <p data-i18n="donorText">Votre engagement peut sauver plusieurs vies.</p>
-<br><label data-i18n="fullName">Nom complet</label>
+<br>
+
+<label data-i18n="fullName">Nom complet</label>
 <input type="text" id="donorName" data-placeholder="namePlaceholder" placeholder="Votre nom complet">
 
 <label data-i18n="phone">Téléphone</label>
@@ -114,51 +144,60 @@ button:focus-visible,a:focus-visible{outline:3px solid #ffbdc9;outline-offset:3p
 
 <label data-i18n="bloodGroup">Groupe sanguin</label>
 <select id="donorGroup">
-
 <option value="" data-i18n="choose">Choisir</option>
 <option>A+</option><option>A-</option>
 <option>B+</option><option>B-</option>
 <option>AB+</option><option>AB-</option>
 <option>O+</option><option>O-</option>
-</select><label data-i18n="city">Ville</label>
+</select>
+
+<label data-i18n="city">Ville</label>
 <input type="text" id="donorCity" data-placeholder="cityPlaceholder" placeholder="Votre ville">
 
 <button class="btn btn-red" style="width:100%" onclick="registerDonor()" data-i18n="register">S'INSCRIRE</button>
-
 <p class="small" data-i18n="donorInfo">L'inscription sera activée avec la base de données sécurisée.</p>
 </div>
-</section><section id="urgence">
+</section>
+
+<section id="urgence">
 <h2 class="title" data-i18n="emergencyTitle">🚨 Demande urgente de sang</h2>
-<div class="card"><label data-i18n="hospital">Nom de l'hôpital</label>
+<div class="card">
+
+<label data-i18n="hospital">Nom de l'hôpital</label>
 <input id="hospital" data-placeholder="hospitalPlaceholder" placeholder="Nom de l'hôpital">
 
 <label data-i18n="requestedGroup">Groupe sanguin demandé</label>
 <select id="urgentGroup">
-
 <option value="" data-i18n="choose">Choisir</option>
 <option>A+</option><option>A-</option>
 <option>B+</option><option>B-</option>
 <option>AB+</option><option>AB-</option>
 <option>O+</option><option>O-</option>
-</select><label data-i18n="city">Ville</label>
+</select>
+
+<label data-i18n="city">Ville</label>
 <input id="urgentCity" data-placeholder="cityPlaceholder" placeholder="Ville">
 
 <label data-i18n="quantity">Nombre de poches</label>
 <input id="quantity" type="number" min="1" data-placeholder="quantityPlaceholder" placeholder="Nombre de poches">
 
 <label data-i18n="details">Informations complémentaires</label>
+<textarea id="details" rows="3" data-placeholder="detailsPlaceholder" placeholder="Précisions sur la demande"></textarea>
 
-<textarea id="details" rows="3" data-placeholder="detailsPlaceholder" placeholder="Précisions sur la demande"></textarea><button class="btn btn-red" style="width:100%" onclick="sendRequest()" data-i18n="sendRequest">ENREGISTRER LA DEMANDE</button>
-
+<button class="btn btn-red" style="width:100%" onclick="sendRequest()" data-i18n="sendRequest">ENREGISTRER LA DEMANDE</button>
 </div>
-</section><section id="administration">
+</section>
+
+<section id="administration">
 <h2 class="title" data-i18n="adminTitle">🔐 Administration</h2>
 <div class="card">
 <p data-i18n="adminText">Espace réservé aux administrateurs de BLOOD-FIND.</p>
 <br>
 <div class="info" data-i18n="adminInfo">La connexion sécurisée et le tableau de bord seront activés avec Supabase.</div>
 </div>
-</section><section id="contact">
+</section>
+
+<section id="contact">
 <h2 class="title" data-i18n="contactTitle">📞 Nous contacter</h2>
 <div class="card">
 <p><strong>BLOOD-FIND</strong></p>
@@ -170,51 +209,44 @@ button:focus-visible,a:focus-visible{outline:3px solid #ffbdc9;outline-offset:3p
 <br>
 <a class="btn btn-red" href="https://wa.me/237690235303" data-i18n="whatsapp">CONTACTER SUR WHATSAPP</a>
 </div>
-</section></main><footer>
+</section>
+
+</main>
+
+<footer>
 <strong>BLOOD-FIND 🇨🇲</strong>
 <p data-i18n="footerText">Ensemble, sauvons des vies.</p>
 <p>© 2026 BLOOD-FIND. <span data-i18n="rights">Tous droits réservés.</span></p>
-</footer><script>
+</footer>
+
+<script>
 let selectedGroup = "";
 
 const translations = {
 fr: {
-home:"Accueil",
-search:"Rechercher du sang",
-banks:"Banques de sang",
-donor:"Devenir donneur",
-emergency:"Demande urgente",
-contact:"Contact",
+home:"Accueil",search:"Rechercher du sang",banks:"Banques de sang",
+donor:"Devenir donneur",emergency:"Demande urgente",contact:"Contact",
 admin:"Administration",
 heroTitle:"UNE GOUTTE DE SANG<br>PEUT SAUVER UNE VIE ❤️",
 heroText:"Trouvez des donneurs volontaires et des banques de sang partout au Cameroun.",
 heroButton:"RECHERCHER DU SANG",
 searchTitle:"🔎 Recherche de sang",
-bloodGroup:"Groupe sanguin recherché",
-region:"Région",
-allRegions:"Toutes les régions",
-city:"Ville",
-allCities:"Toutes les villes",
-searchButton:"RECHERCHER",
-locate:"📍 Me localiser",
+bloodGroup:"Groupe sanguin recherché",region:"Région",
+allRegions:"Toutes les régions",city:"Ville",allCities:"Toutes les villes",
+searchButton:"RECHERCHER",locate:"📍 Me localiser",
 banksTitle:"🏥 Banques de sang",
 banksText:"Consultez les banques de sang, les hôpitaux et leurs disponibilités dans les différentes régions du Cameroun.",
 banksInfo:"Les établissements et les stocks réels seront affichés après connexion à la base de données.",
 donorTitle:"❤️ Devenir donneur volontaire",
 donorText:"Votre engagement peut sauver plusieurs vies.",
-fullName:"Nom complet",
-namePlaceholder:"Votre nom complet",
-phone:"Téléphone",
-phonePlaceholder:"Votre numéro",
-choose:"Choisir",
-cityPlaceholder:"Votre ville",
+fullName:"Nom complet",namePlaceholder:"Votre nom complet",
+phone:"Téléphone",phonePlaceholder:"Votre numéro",
+choose:"Choisir",cityPlaceholder:"Votre ville",
 register:"S'INSCRIRE",
 donorInfo:"L'inscription sera activée avec la base de données sécurisée.",
 emergencyTitle:"🚨 Demande urgente de sang",
-hospital:"Nom de l'hôpital",
-hospitalPlaceholder:"Nom de l'hôpital",
-requestedGroup:"Groupe sanguin demandé",
-quantity:"Nombre de poches",
+hospital:"Nom de l'hôpital",hospitalPlaceholder:"Nom de l'hôpital",
+requestedGroup:"Groupe sanguin demandé",quantity:"Nombre de poches",
 quantityPlaceholder:"Nombre de poches",
 details:"Informations complémentaires",
 detailsPlaceholder:"Précisions sur la demande",
@@ -238,43 +270,31 @@ donorPrepared:"Formulaire prêt. L'enregistrement sécurisé sera activé lors d
 fillUrgent:"Veuillez remplir les informations obligatoires.",
 requestPrepared:"Demande préparée. Son enregistrement sera activé après connexion à Supabase."
 },
+
 en: {
-home:"Home",
-search:"Search for blood",
-banks:"Blood banks",
-donor:"Become a donor",
-emergency:"Emergency request",
-contact:"Contact",
+home:"Home",search:"Search for blood",banks:"Blood banks",
+donor:"Become a donor",emergency:"Emergency request",contact:"Contact",
 admin:"Administration",
 heroTitle:"A DROP OF BLOOD<br>CAN SAVE A LIFE ❤️",
 heroText:"Find voluntary blood donors and blood banks throughout Cameroon.",
 heroButton:"SEARCH FOR BLOOD",
 searchTitle:"🔎 Blood search",
-bloodGroup:"Required blood group",
-region:"Region",
-allRegions:"All regions",
-city:"City",
-allCities:"All cities",
-searchButton:"SEARCH",
-locate:"📍 Locate me",
+bloodGroup:"Required blood group",region:"Region",
+allRegions:"All regions",city:"City",allCities:"All cities",
+searchButton:"SEARCH",locate:"📍 Locate me",
 banksTitle:"🏥 Blood banks",
 banksText:"Find blood banks, hospitals and their availability across the regions of Cameroon.",
 banksInfo:"Facilities and actual stock information will appear after connecting to the database.",
 donorTitle:"❤️ Become a voluntary donor",
 donorText:"Your commitment can save several lives.",
-fullName:"Full name",
-namePlaceholder:"Your full name",
-phone:"Phone number",
-phonePlaceholder:"Your phone number",
-choose:"Select",
-cityPlaceholder:"Your city",
+fullName:"Full name",namePlaceholder:"Your full name",
+phone:"Phone number",phonePlaceholder:"Your phone number",
+choose:"Select",cityPlaceholder:"Your city",
 register:"REGISTER",
 donorInfo:"Registration will be activated through the secure database.",
 emergencyTitle:"🚨 Emergency blood request",
-hospital:"Hospital name",
-hospitalPlaceholder:"Hospital name",
-requestedGroup:"Required blood group",
-quantity:"Number of blood bags",
+hospital:"Hospital name",hospitalPlaceholder:"Hospital name",
+requestedGroup:"Required blood group",quantity:"Number of blood bags",
 quantityPlaceholder:"Number of bags",
 details:"Additional information",
 detailsPlaceholder:"Details about the request",
@@ -302,34 +322,22 @@ requestPrepared:"Request prepared. Submission will be activated after connecting
 
 const regionNames = {
 fr:{
-Adamaoua:"Adamaoua",
-Centre:"Centre",
-Est:"Est",
-ExtremeNord:"Extrême-Nord",
-Littoral:"Littoral",
-Nord:"Nord",
-NordOuest:"Nord-Ouest",
-Ouest:"Ouest",
-Sud:"Sud",
-SudOuest:"Sud-Ouest"
+Adamaoua:"Adamaoua",Centre:"Centre",Est:"Est",
+ExtremeNord:"Extrême-Nord",Littoral:"Littoral",
+Nord:"Nord",NordOuest:"Nord-Ouest",Ouest:"Ouest",
+Sud:"Sud",SudOuest:"Sud-Ouest"
 },
 en:{
-Adamaoua:"Adamawa",
-Centre:"Centre",
-Est:"East",
-ExtremeNord:"Far North",
-Littoral:"Littoral",
-Nord:"North",
-NordOuest:"Northwest",
-Ouest:"West",
-Sud:"South",
-SudOuest:"Southwest"
+Adamaoua:"Adamawa",Centre:"Centre",Est:"East",
+ExtremeNord:"Far North",Littoral:"Littoral",
+Nord:"North",NordOuest:"Northwest",Ouest:"West",
+Sud:"South",SudOuest:"Southwest"
 }
 };
 
 let currentLanguage = localStorage.getItem("bloodFindLanguage") || "fr";
 
-function applyLanguage() {
+function applyLanguage(){
 const t = translations[currentLanguage];
 
 document.documentElement.lang = currentLanguage;
@@ -337,12 +345,12 @@ document.title = currentLanguage === "fr"
 ? "BLOOD-FIND | Le sang peut sauver une vie"
 : "BLOOD-FIND | Every drop can save a life";
 
-document.querySelectorAll("[data-i18n]").forEach(element => {
+document.querySelectorAll("[data-i18n]").forEach(element=>{
 const key = element.dataset.i18n;
 if(t[key]) element.innerHTML = t[key];
 });
 
-document.querySelectorAll("[data-placeholder]").forEach(element => {
+document.querySelectorAll("[data-placeholder]").forEach(element=>{
 const key = element.dataset.placeholder;
 if(t[key]) element.placeholder = t[key];
 });
@@ -351,7 +359,7 @@ document.getElementById("langButton").textContent =
 currentLanguage === "fr" ? "🇬🇧 EN" : "🇫🇷 FR";
 
 const region = document.getElementById("region");
-Array.from(region.options).forEach(option => {
+Array.from(region.options).forEach(option=>{
 if(option.value && regionNames[currentLanguage][option.value]){
 option.textContent = regionNames[currentLanguage][option.value];
 }
@@ -407,7 +415,7 @@ first.value = "";
 first.textContent = t.allCities;
 select.appendChild(first);
 
-(cities[region] || []).forEach(city => {
+(cities[region] || []).forEach(city=>{
 const option = document.createElement("option");
 option.value = city;
 option.textContent = city;
@@ -441,12 +449,12 @@ return;
 }
 
 navigator.geolocation.getCurrentPosition(
-pos => {
+pos=>{
 alert(t.locationSuccess + " " +
 pos.coords.latitude.toFixed(4) + ", " +
 pos.coords.longitude.toFixed(4));
 },
-() => alert(t.locationError)
+()=>alert(t.locationError)
 );
 }
 
@@ -480,5 +488,19 @@ alert(t.requestPrepared);
 }
 
 applyLanguage();
-</script></body>
+
+/* Connexion automatique du service worker */
+if("serviceWorker" in navigator){
+window.addEventListener("load",()=>{
+navigator.serviceWorker.register(
+"/blood-find-cam/service-worker.js",
+{scope:"/blood-find-cam/"}
+).catch(error=>{
+console.error("Erreur Service Worker :",error);
+});
+});
+}
+</script>
+
+</body>
 </html>
