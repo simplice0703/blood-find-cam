@@ -1,20 +1,29 @@
 {
-"id": "/blood-find-cam/",
-"name": "BLOOD-FIND – Blood Donation & Search Cameroon",
-"short_name": "BLOOD-FIND",
-"description": "Plateforme nationale de recherche de sang et de donneurs volontaires au Cameroun. National platform for finding blood supplies and voluntary blood donors in Cameroon.",
-"lang": "fr",
-"dir": "ltr",
-"start_url": "/blood-find-cam/",
-"scope": "/blood-find-cam/",
-"display": "standalone",
-"orientation": "portrait",
-"background_color": "#ffffff",
-"theme_color": "#b5122b",
-"categories": [
-"medical",
-"health",
-"utilities"
-],
-"prefer_related_applications": false
+  "id": "/blood-find-cam/",
+  "name": "BLOOD-FIND - Recherche de sang au Cameroun",
+  "short_name": "BLOOD-FIND",
+  "description": "Plateforme nationale de recherche de sang et de donneurs volontaires au Cameroun.",
+  "lang": "fr",
+  "start_url": "/blood-find-cam/",
+  "scope": "/blood-find-cam/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#b5122b",
+  "background_color": "#ffffff",
+  "categories": ["medical", "health", "utilities"],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/blood-find-cam/blood-find-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/blood-find-cam/blood-find-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
 }
