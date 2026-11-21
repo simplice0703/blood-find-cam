@@ -1,0 +1,104 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#981b2d"><title>BLOOD-FIND</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f5f6f8;color:#202532;font-family:Arial,sans-serif}.app{max-width:520px;margin:auto;min-height:100vh;padding-bottom:82px}.hero{background:linear-gradient(140deg,#741020,#b91f36);color:white;padding:24px 20px 32px;border-radius:0 0 28px 28px}.brand{font-weight:900;font-size:21px}.hero h1{font-size:26px;line-height:1.2;margin:28px 0 8px}.hero p{font-size:13px;line-height:1.5;color:#ffe8eb}.main{padding:0 16px;margin-top:-12px}.card{background:white;border-radius:19px;padding:18px;box-shadow:0 7px 24px #31101a12;margin-bottom:15px}.eyebrow{font-size:11px;color:#981b2d;font-weight:800;letter-spacing:1px;text-transform:uppercase}h2{font-size:19px;margin:7px 0 14px}label{display:block;font-size:12px;font-weight:bold;margin:12px 0 6px}select,input{width:100%;padding:13px;border:1px solid #e5e7eb;border-radius:12px;background:#fafafa;font-size:14px}.btn{width:100%;border:0;background:#981b2d;color:white;border-radius:12px;padding:14px;font-weight:bold;margin-top:15px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{background:white;border-radius:15px;text-align:center;padding:15px 5px}.stat b{display:block;font-size:21px;color:#981b2d}.stat span{font-size:10px;color:#778091}.head{display:flex;justify-content:space-between;align-items:center;margin:21px 2px 11px}.head h2{margin:0;font-size:17px}.alert{background:#fff0f2;border:1px solid #ffd9df;border-radius:15px;padding:15px;font-size:13px}.alert p,.note{font-size:11px;color:#778091;line-height:1.5}.page{display:none}.page.active{display:block}nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);background:white;border-top:1px solid #eceef2;display:grid;grid-template-columns:repeat(4,1fr);padding:10px 5px calc(10px + env(safe-area-inset-bottom))}nav button{border:0;background:none;color:#8991a0;font-size:10px}nav button span{display:block;font-size:21px;margin-bottom:4px}nav button.active{color:#981b2d;font-weight:bold}.bank{background:white;padding:15px;border-radius:15px;margin-bottom:10px;font-size:13px}.tag{float:right;color:#16845b;font-weight:bold;font-size:10px}
+
+.menu-toggle{width:40px;height:40px;border:1px solid #ffffff55;background:#ffffff18;color:white;border-radius:12px;font-size:21px}
+.topbar{display:flex;align-items:center;gap:12px}.topbar .brand{flex:1}.country{font-size:9px;letter-spacing:.8px;border:1px solid #ffffff66;border-radius:20px;padding:6px 9px}
+.drawer-shade{position:fixed;inset:0;background:#10182788;z-index:20;display:none}.drawer{position:absolute;left:0;top:0;bottom:0;width:min(290px,82vw);background:white;padding:22px 16px;box-shadow:8px 0 30px #0002}
+.drawer.open,.drawer-shade.open{display:block}.drawer-head{background:#981b2d;color:white;padding:18px;border-radius:16px;margin-bottom:16px}.drawer-head b{font-size:18px}.drawer-head p{font-size:11px;margin:7px 0 0;color:#ffe5e9}
+.drawer button{display:block;width:100%;text-align:left;border:0;background:white;padding:15px 12px;border-radius:12px;font-size:14px;color:#252b36}.drawer button:active,.drawer button:hover{background:#fff0f2;color:#981b2d}
+</style></head><body><div class="drawer-shade" id="shade" onclick="toggleMenu()"><aside class="drawer" id="drawer" onclick="event.stopPropagation()">
+<div class="drawer-head"><b>🩸 BLOOD-FIND</b><p>Trouver du sang. Donner de l'espoir.</p></div>
+<button onclick="goFromMenu('home')">⌂ &nbsp; Accueil</button>
+<button onclick="goFromMenu('urgent')">⚠ &nbsp; Urgences</button>
+<button onclick="goFromMenu('banks')">✚ &nbsp; Banques de sang</button>
+<button onclick="goFromMenu('donor')">♡ &nbsp; Espace donneur</button>
+<button onclick="goFromMenu('admin')">🔐 &nbsp; Administration</button>
+<button onclick="goFromMenu('contact')">☎ &nbsp; Contactez-nous</button>
+<button onclick="toggleMenu()">✕ &nbsp; Fermer le menu</button>
+<p class="note">Version de démonstration</p>
+</aside></div>
+<div class="app"><header class="hero"><div class="topbar">
+<button class="menu-toggle" aria-label="Ouvrir le menu" onclick="toggleMenu()">☰</button>
+<div class="brand">🩸 BLOOD-FIND</div>
+<span class="country">CAMEROUN</span>
+</div><h1>Chaque don peut sauver une vie.</h1><p>Trouvez les banques de sang, consultez les disponibilités et rejoignez les donneurs volontaires.</p></header><main class="main">
+<section id="home" class="page active"><div class="card"><div class="eyebrow">SERVICE DE RECHERCHE</div><h2>Trouvez du sang près de vous</h2><label>Groupe sanguin</label><select id="grp"><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select><label>Région</label><select id="region" onchange="fillCities('region','city')"><option value="">Toutes les régions</option></select><label>Ville / localité</label><select id="city"><option value="">Toutes les villes</option></select><button type="button" class="btn" style="background:#fff0f2;color:#981b2d;border:1px solid #f2cbd1" onclick="getGPS('gpsSearch')">📍 Utiliser ma position GPS</button><p id="gpsSearch" class="note">La position GPS sera utilisée uniquement avec votre autorisation.</p><button class="btn" onclick="document.getElementById('out').innerHTML='Recherche de démonstration : '+document.getElementById('grp').value+' — '+(document.getElementById('city').value||document.getElementById('region').value||'Cameroun entier')+'. Les stocks réels ne sont pas encore connectés.'">Rechercher les disponibilités →</button><p id="out" class="note"></p></div><div class="head"><h2>En un coup d'œil</h2><span class="note">Réseau national</span></div><div class="stats"><div class="stat"><b>🩸</b><span>Groupes sanguins</span></div><div class="stat"><b>🏥</b><span>Banques</span></div><div class="stat"><b>❤️</b><span>Donneurs</span></div></div><div class="head"><h2>Besoin urgent ?</h2></div><div class="alert">🚨 <b>Demandes urgentes</b><p>Consultez les appels des hôpitaux et les besoins en sang.</p></div><p class="note">Maquette de démonstration : aucun stock ou établissement réel n'est affiché. Ne pas utiliser pour une urgence médicale.</p></section>
+<section id="urgent" class="page"><div class="card"><h2>🚨 Demandes urgentes</h2><p class="note">Les demandes publiées par les hôpitaux apparaîtront ici après connexion à la base de données.</p></div></section>
+<section id="banks" class="page"><div class="head"><h2>Banques de sang</h2></div><div class="bank">🏥 <b>Banques vérifiées</b><span class="tag">À venir</span><p class="note">Les établissements partenaires apparaîtront ici.</p></div></section>
+<section id="donor" class="page"><div class="card"><div class="eyebrow">Solidarité</div><h2>Devenir donneur volontaire</h2><label>Nom complet</label><input placeholder="Votre nom"><label>Téléphone</label><input type="tel" placeholder="6XX XX XX XX"><label>Groupe sanguin</label><select><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option><option>Je ne connais pas</option></select><label>Région</label><select id="donorRegion" onchange="fillCities('donorRegion','donorCity')"><option value="">Choisir une région</option></select><label>Ville / localité</label><select id="donorCity"><option value="">Choisir une ville</option></select><button type="button" class="btn" style="background:#fff0f2;color:#981b2d;border:1px solid #f2cbd1" onclick="getGPS('gpsDonor')">📍 Utiliser ma position GPS</button><p id="gpsDonor" class="note">Votre position reste sur cet appareil dans cette maquette.</p><button class="btn" onclick="alert('Démo uniquement : aucune donnée n’a été enregistrée.')">Continuer</button><p class="note">Ce formulaire ne transmet ni ne sauvegarde vos informations.</p></div></section>
+<section id="admin" class="page">
+<div class="card" id="adminLogin"><div class="eyebrow">ACCÈS ADMINISTRATEUR</div><h2>Espace administrateur</h2>
+<p class="note">Espace de gestion de BLOOD-FIND : banques, stocks, hôpitaux, donneurs et demandes urgentes.</p>
+<label>Adresse e-mail</label><input id="adminEmail" type="email" placeholder="Adresse e-mail administrateur">
+<label>Mot de passe</label><input id="adminPassword" type="password" placeholder="Mot de passe">
+<button class="btn" onclick="demoAdminLogin()">Se connecter</button>
+<p class="note">Démonstration visuelle uniquement : aucun identifiant n'est vérifié pour le moment.</p></div>
+<div id="adminDashboard" style="display:none">
+<div class="head"><h2>Tableau de bord</h2><span class="tag">APERÇU</span></div>
+<div class="stats"><div class="stat"><b>—</b><span>Banques</span></div><div class="stat"><b>—</b><span>Donneurs</span></div><div class="stat"><b>—</b><span>Demandes</span></div></div>
+<div class="head"><h2>Administration</h2></div>
+<div class="bank">🏥 <b>Banques de sang</b><p class="note">Validation des établissements et gestion des accès.</p></div>
+<div class="bank">🩸 <b>Stocks sanguins</b><p class="note">Suivi des quantités par groupe sanguin.</p></div>
+<div class="bank">🚨 <b>Demandes urgentes</b><p class="note">Suivi des demandes des hôpitaux.</p></div>
+<div class="bank">❤️ <b>Donneurs</b><p class="note">Gestion des comptes et protection des données.</p></div>
+<div class="bank">👥 <b>Utilisateurs et rôles</b><p class="note">Gestion des administrateurs et personnels autorisés.</p></div>
+<button class="btn" onclick="adminLogout()">Se déconnecter</button>
+<p class="note">Les chiffres et les fonctions de gestion seront activés après connexion sécurisée à Supabase.</p></div></section>
+
+<section id="contact" class="page">
+  <div class="card">
+    <div class="eyebrow">NOUS JOINDRE</div>
+    <h2>Contactez BLOOD-FIND</h2>
+    <p class="note">Pour toute information, partenariat ou assistance, contactez notre équipe.</p>
+    <div class="bank">
+      <b>📞 Téléphone 1</b>
+      <p><a href="tel:+237690235303">+237 690 23 53 03</a></p>
+      <a class="btn" href="https://wa.me/237690235303" target="_blank" rel="noopener">🟢 Écrire sur WhatsApp</a>
+    </div>
+    <div class="bank">
+      <b>📞 Téléphone 2</b>
+      <p><a href="tel:+237620247277">+237 620 24 72 77</a></p>
+      <a class="btn" href="https://wa.me/237620247277" target="_blank" rel="noopener">🟢 Écrire sur WhatsApp</a>
+    </div>
+    <div class="bank">
+      <b>✉️ Adresse e-mail</b>
+      <p><a href="mailto:doumdjes0703@gmail.com">doumdjes0703@gmail.com</a></p>
+      <a class="btn" href="mailto:doumdjes0703@gmail.com">Envoyer un e-mail</a>
+    </div>
+  </div>
+</section>
+
+</main></div><script>
+
+const CAMEROON_REGIONS = {"Adamaoua": ["Ngaoundéré", "Meiganga", "Tibati", "Banyo", "Tignère", "Djohong", "Mayo-Baléo", "Bankim", "Ngaoundal", "Kontcha", "Galim-Tignère"], "Centre": ["Yaoundé", "Mbalmayo", "Bafia", "Nanga-Eboko", "Akonolinga", "Monatélé", "Obala", "Mfou", "Mbankomo", "Ntui", "Yoko", "Eséka", "Ngoumou", "Sa'a", "Okola", "Awaé", "Ayos", "Mbandjock", "Nkoteng", "Ombessa", "Ndikiniméki", "Matomb", "Bikok", "Dzeng"], "Est": ["Bertoua", "Batouri", "Abong-Mbang", "Yokadouma", "Garoua-Boulaï", "Bélabo", "Bétaré-Oya", "Doumé", "Lomié", "Moloundou", "Kentzou", "Mindourou", "Nguelemendouka", "Dimako", "Koumé"], "Extrême-Nord": ["Maroua", "Kousséri", "Mokolo", "Yagoua", "Kaélé", "Mora", "Maga", "Mindif", "Waza", "Fotokol", "Makary", "Blangoua", "Bogo", "Guéré", "Méri", "Kolofata", "Tokombéré", "Guidiguis", "Moulvoudaye", "Tchatibali"], "Littoral": ["Douala", "Édéa", "Nkongsamba", "Yabassi", "Loum", "Manjo", "Mbanga", "Melong", "Dibombari", "Penja", "Njombé", "Ndom", "Pouma", "Mouanko", "Massock-Songloulou"], "Nord": ["Garoua", "Guider", "Figuil", "Poli", "Tcholliré", "Rey-Bouba", "Lagdo", "Pitoa", "Bibémi", "Dembo", "Touboro", "Mayo-Oulo", "Bashéo"], "Nord-Ouest": ["Bamenda", "Kumbo", "Wum", "Ndop", "Nkambe", "Mbengwi", "Fundong", "Bali", "Batibo", "Bafut", "Santa", "Tubah", "Belo", "Oku", "Jakiri", "Babessi", "Ndu", "Widikum"], "Ouest": ["Bafoussam", "Dschang", "Mbouda", "Foumban", "Bafang", "Bangangté", "Foumbot", "Baham", "Bandjoun", "Kékem", "Penka-Michel", "Batcham", "Bana", "Koutaba", "Magba", "Massangam", "Bangourain", "Babadjou"], "Sud": ["Ebolowa", "Kribi", "Sangmélima", "Ambam", "Djoum", "Lolodorf", "Campo", "Akom II", "Meyomessala", "Mvangan", "Zoétélé", "Biwong-Bane", "Mengong", "Ma'an", "Olamze"], "Sud-Ouest": ["Buéa", "Limbe", "Kumba", "Mamfe", "Tiko", "Mundemba", "Bangem", "Muyuka", "Idenau", "Ekondo-Titi", "Fontem", "Tombel", "Nguti", "Akwaya", "Konye"]};
+function fillRegionSelect(id) {
+  const el=document.getElementById(id);
+  Object.keys(CAMEROON_REGIONS).forEach(r=>{const o=document.createElement('option');o.value=r;o.textContent=r;el.appendChild(o)});
+}
+function fillCities(regionId, cityId) {
+  const region=document.getElementById(regionId).value;
+  const city=document.getElementById(cityId);
+  city.innerHTML='<option value="">Toutes les villes / localités</option>';
+  const list=region ? (CAMEROON_REGIONS[region]||[]) : [...new Set(Object.values(CAMEROON_REGIONS).flat())].sort((a,b)=>a.localeCompare(b,'fr'));
+  list.forEach(name=>{const o=document.createElement('option');o.value=name;o.textContent=name;city.appendChild(o)});
+}
+function getGPS(targetId) {
+  const output=document.getElementById(targetId);
+  if(!navigator.geolocation){output.textContent='La géolocalisation n’est pas prise en charge par ce navigateur.';return;}
+  output.textContent='Recherche de votre position… Autorisez la localisation si le téléphone le demande.';
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const lat=pos.coords.latitude.toFixed(6), lon=pos.coords.longitude.toFixed(6);
+    output.innerHTML='📍 Position GPS obtenue : '+lat+', '+lon+' — <a target="_blank" rel="noopener" href="https://www.google.com/maps?q='+lat+','+lon+'">Voir sur la carte</a>';
+    output.dataset.latitude=lat; output.dataset.longitude=lon;
+  },err=>{
+    output.textContent=err.code===1?'Autorisation refusée. Activez la localisation dans les paramètres du téléphone et réessayez.':'Position indisponible. Vérifiez le GPS et la connexion Internet.';
+  },{enableHighAccuracy:true,timeout:15000,maximumAge:60000});
+}
+fillRegionSelect('region'); fillRegionSelect('donorRegion');
+fillCities('region','city'); fillCities('donorRegion','donorCity');
+
+function toggleMenu(){document.getElementById('shade').classList.toggle('open')}
+function goFromMenu(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');toggleMenu();scrollTo(0,0)}
+function demoAdminLogin(){if(!document.getElementById('adminEmail').value||!document.getElementById('adminPassword').value){alert('Veuillez saisir votre e-mail et votre mot de passe.');return}document.getElementById('adminLogin').style.display='none';document.getElementById('adminDashboard').style.display='block'}
+function adminLogout(){document.getElementById('adminLogin').style.display='block';document.getElementById('adminDashboard').style.display='none';document.getElementById('adminPassword').value=''}
+function go(id,b){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');scrollTo(0,0)}</script></body></html>
