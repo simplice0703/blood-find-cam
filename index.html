@@ -1,484 +1,733 @@
-<!DOCTYPE html><html lang="fr">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#b5122b">
-<meta name="description" content="BLOOD-FIND : plateforme de recherche de sang et de donneurs volontaires au Cameroun.">
+<title>BLOOD-FIND — Trouver du sang au Cameroun</title>
 <link rel="manifest" href="/blood-find-cam/manifest.webmanifest">
-<title>BLOOD-FIND | Sauver des vies</title><style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#f5f6fa;color:#252525}
-header{background:#b5122b;color:white;padding:15px;position:sticky;top:0;z-index:10}
-.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+
+<style>
+:root {
+  --red:#b5122b;
+  --dark:#252936;
+  --light:#f5f6f8;
+  --white:#fff;
+  --green:#16834a;
+  --border:#e5e7eb;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:var(--light);
+  color:var(--dark);
+}
+header{
+  background:var(--red);
+  color:white;
+  padding:14px 16px;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 2px 8px #0002;
+}
+.header-content{
+  max-width:1000px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
 .logo{font-size:22px;font-weight:bold}
-.logo span{color:#ffd5dc}
-.header-actions{display:flex;align-items:center;gap:15px}
-.menu{font-size:27px;cursor:pointer}
-.lang{background:white;color:#b5122b;border:0;padding:9px 11px;border-radius:8px;font-weight:bold;cursor:pointer}
-nav{display:none;background:#940d23;padding:15px;margin-top:15px;border-radius:10px}
-nav a{display:block;color:white;text-decoration:none;padding:12px 5px;border-bottom:1px solid #ffffff30}
-.hero{background:linear-gradient(140deg,#b5122b,#730c20);color:white;padding:38px 20px;text-align:center}
-.hero h1{font-size:27px;margin-bottom:12px}
-.hero p{line-height:1.6;margin-bottom:20px}
-.btn{display:inline-block;padding:13px 20px;border-radius:9px;border:none;font-weight:bold;text-decoration:none;cursor:pointer}
-.btn-white{background:white;color:#b5122b}
-.btn-red{background:#b5122b;color:white}
-.container{padding:20px 15px;max-width:700px;margin:auto}
-.title{font-size:21px;margin-bottom:15px;color:#a40e27}
-.card{background:white;padding:18px;border-radius:14px;margin-bottom:16px;box-shadow:0 3px 12px #0000000c}
-input,select,textarea{width:100%;padding:13px;margin:8px 0 14px;border:1px solid #ddd;border-radius:8px;font-size:15px;background:white}
-label{font-weight:bold;font-size:14px}
-.groups{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.group{background:#fff0f2;border:1px solid #f1c4cd;border-radius:10px;padding:15px 5px;text-align:center;font-size:19px;font-weight:bold;color:#b5122b;cursor:pointer}
-.group.active{background:#b5122b;color:white}
-.info{background:#fff0f2;border-left:4px solid #b5122b;padding:14px;border-radius:7px;line-height:1.5}
-footer{background:#26232a;color:white;padding:25px 18px;text-align:center;line-height:2}
-.hidden{display:none}
-.small{font-size:13px;color:#777}
-section{scroll-margin-top:85px}
-button:focus-visible,a:focus-visible{outline:3px solid #ffbdc9;outline-offset:3px}
-@media(max-width:360px){.logo{font-size:18px}.groups{gap:6px}.group{padding:12px 3px}}
-</style></head><body><header>
-<div class="top">
-<div class="logo">🩸 BLOOD-<span>FIND</span></div>
-<div class="header-actions">
-<button class="lang" id="langButton" onclick="changeLanguage()">🇬🇧 EN</button>
-<div class="menu" onclick="toggleMenu()" aria-label="Menu">☰</div>
-</div>
-</div><nav id="menu">
-<a href="#accueil" onclick="toggleMenu()" data-i18n="home">Accueil</a>
-<a href="#recherche" onclick="toggleMenu()" data-i18n="search">Rechercher du sang</a>
-<a href="#banques" onclick="toggleMenu()" data-i18n="banks">Banques de sang</a>
-<a href="#donneur" onclick="toggleMenu()" data-i18n="donor">Devenir donneur</a>
-<a href="#urgence" onclick="toggleMenu()" data-i18n="emergency">Demande urgente</a>
-<a href="#contact" onclick="toggleMenu()" data-i18n="contact">Contact</a>
-<a href="#administration" onclick="toggleMenu()" data-i18n="admin">Administration</a>
+.logo span{color:#ffd8df}
+button,select,input,textarea{font:inherit}
+button{cursor:pointer}
+.language{
+  border:1px solid white;
+  background:transparent;
+  color:white;
+  padding:8px 12px;
+  border-radius:8px;
+}
+.menu-button{
+  background:transparent;
+  border:0;
+  color:white;
+  font-size:25px;
+}
+nav{
+  display:none;
+  background:#981025;
+  padding:10px 16px;
+}
+nav.open{display:block}
+nav a{
+  display:block;
+  color:white;
+  text-decoration:none;
+  padding:12px 4px;
+  border-bottom:1px solid #ffffff30;
+}
+.container{max-width:1000px;margin:auto;padding:18px}
+.hero{
+  background:linear-gradient(135deg,#b5122b,#7d0b1c);
+  color:white;
+  padding:42px 22px;
+  text-align:center;
+}
+.hero h1{font-size:30px;margin:0 0 12px}
+.hero p{line-height:1.6;max-width:650px;margin:0 auto 20px}
+.hero a{
+  display:inline-block;
+  color:var(--red);
+  background:white;
+  padding:12px 20px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:bold;
+}
+section{padding:12px 0}
+h2{color:var(--red);font-size:23px}
+.card{
+  background:white;
+  border-radius:14px;
+  padding:18px;
+  margin:14px 0;
+  box-shadow:0 3px 12px #0000000c;
+  border:1px solid var(--border);
+}
+label{display:block;font-weight:bold;margin:12px 0 6px}
+input,select,textarea{
+  width:100%;
+  padding:13px;
+  border:1px solid #d1d5db;
+  border-radius:9px;
+  background:white;
+  min-height:46px;
+}
+textarea{min-height:90px;resize:vertical}
+.primary{
+  width:100%;
+  background:var(--red);
+  color:white;
+  border:0;
+  border-radius:9px;
+  padding:14px;
+  font-weight:bold;
+  margin-top:14px;
+}
+.secondary{
+  background:#fff;
+  color:var(--red);
+  border:1px solid var(--red);
+  border-radius:9px;
+  padding:12px;
+  width:100%;
+  margin-top:10px;
+}
+.notice{
+  background:#fff4e5;
+  border:1px solid #f2d39b;
+  color:#744b00;
+  border-radius:9px;
+  padding:12px;
+  line-height:1.5;
+  margin:12px 0;
+}
+.status{
+  padding:12px;
+  background:#f1f5f9;
+  border-radius:9px;
+  margin:12px 0;
+  line-height:1.5;
+}
+.bank{
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:15px;
+  margin:12px 0;
+  background:white;
+}
+.bank h3{margin:0 0 8px;color:var(--dark)}
+.bank p{margin:6px 0;line-height:1.4}
+.stock-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.stock{
+  background:#fce8ec;
+  color:#8e1025;
+  border-radius:7px;
+  padding:7px 9px;
+  font-size:13px;
+  font-weight:bold;
+}
+.empty{text-align:center;color:#687080;padding:18px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.contact a{color:var(--red);font-weight:bold}
+footer{
+  background:#252936;
+  color:white;
+  text-align:center;
+  padding:25px 15px;
+  line-height:1.7;
+  margin-top:25px;
+}
+footer a{color:white}
+@media(max-width:600px){
+  .container{padding:14px}
+  .hero h1{font-size:25px}
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-content">
+    <div class="logo">🩸 BLOOD-<span>FIND</span></div>
+    <div>
+      <button class="language" id="languageButton" onclick="changeLanguage()">English</button>
+      <button class="menu-button" onclick="toggleMenu()" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<nav id="menu">
+  <a href="#accueil" data-fr="Accueil" data-en="Home">Accueil</a>
+  <a href="#recherche" data-fr="Rechercher du sang" data-en="Find blood">Rechercher du sang</a>
+  <a href="#banques" data-fr="Banques de sang" data-en="Blood banks">Banques de sang</a>
+  <a href="#donneur" data-fr="Devenir donneur" data-en="Become a donor">Devenir donneur</a>
+  <a href="#urgence" data-fr="Demande urgente" data-en="Emergency request">Demande urgente</a>
+  <a href="#administration" data-fr="Administration" data-en="Administration">Administration</a>
+  <a href="#contact" data-fr="Contact" data-en="Contact">Contact</a>
 </nav>
-</header><section class="hero" id="accueil">
-<h1 data-i18n="heroTitle">UNE GOUTTE DE SANG<br>PEUT SAUVER UNE VIE ❤️</h1>
-<p data-i18n="heroText">Trouvez des donneurs volontaires et des banques de sang partout au Cameroun.</p>
-<a href="#recherche" class="btn btn-white" data-i18n="heroButton">RECHERCHER DU SANG</a>
-</section><main class="container"><section id="recherche">
-<h2 class="title" data-i18n="searchTitle">🔎 Recherche de sang</h2>
-<div class="card"><label data-i18n="bloodGroup">Groupe sanguin recherché</label>
 
-<div class="groups" id="groups">
-<div class="group" onclick="chooseGroup(this)">A+</div>
-<div class="group" onclick="chooseGroup(this)">A-</div>
-<div class="group" onclick="chooseGroup(this)">B+</div>
-<div class="group" onclick="chooseGroup(this)">B-</div>
-<div class="group" onclick="chooseGroup(this)">AB+</div>
-<div class="group" onclick="chooseGroup(this)">AB-</div>
-<div class="group" onclick="chooseGroup(this)">O+</div>
-<div class="group" onclick="chooseGroup(this)">O-</div>
-</div><label data-i18n="region">Région</label>
-<select id="region" onchange="loadCities()">
-
-<option value="" data-i18n="allRegions">Toutes les régions</option>
-<option value="Adamaoua">Adamaoua</option>
-<option value="Centre">Centre</option>
-<option value="Est">Est</option>
-<option value="ExtremeNord">Extrême-Nord</option>
-<option value="Littoral">Littoral</option>
-<option value="Nord">Nord</option>
-<option value="NordOuest">Nord-Ouest</option>
-<option value="Ouest">Ouest</option>
-<option value="Sud">Sud</option>
-<option value="SudOuest">Sud-Ouest</option>
-</select><label data-i18n="city">Ville</label>
-<select id="ville">
-
-<option value="" data-i18n="allCities">Toutes les villes</option>
-</select><button class="btn btn-red" style="width:100%" onclick="searchBlood()" data-i18n="searchButton">RECHERCHER</button>
-
-<button class="btn" style="width:100%;margin-top:10px;background:#eee" onclick="locateMe()" data-i18n="locate">📍 Me localiser</button>
-
-<p id="result" class="info hidden" style="margin-top:15px"></p>
+<div class="hero" id="accueil">
+  <h1 data-fr="Ensemble, sauvons des vies" data-en="Together, let's save lives">Ensemble, sauvons des vies</h1>
+  <p data-fr="La plateforme nationale pour rechercher les banques de sang, consulter les stocks disponibles et faciliter la mise en relation avec les donneurs volontaires au Cameroun."
+     data-en="The national platform to find blood banks, check available blood stocks and connect with voluntary blood donors in Cameroon.">
+    La plateforme nationale pour rechercher les banques de sang, consulter les stocks disponibles et faciliter la mise en relation avec les donneurs volontaires au Cameroun.
+  </p>
+  <a href="#recherche" data-fr="Rechercher du sang" data-en="Find blood">Rechercher du sang</a>
 </div>
-</section><section id="banques">
-<h2 class="title" data-i18n="banksTitle">🏥 Banques de sang</h2>
-<div class="card">
-<p data-i18n="banksText">Consultez les banques de sang, les hôpitaux et leurs disponibilités dans les différentes régions du Cameroun.</p>
-<br>
-<div class="info" data-i18n="banksInfo">Les établissements et les stocks réels seront affichés après connexion à la base de données.</div>
-</div>
-</section><section id="donneur">
-<h2 class="title" data-i18n="donorTitle">❤️ Devenir donneur volontaire</h2>
-<div class="card">
-<p data-i18n="donorText">Votre engagement peut sauver plusieurs vies.</p>
-<br><label data-i18n="fullName">Nom complet</label>
-<input type="text" id="donorName" data-placeholder="namePlaceholder" placeholder="Votre nom complet">
 
-<label data-i18n="phone">Téléphone</label>
-<input type="tel" id="donorPhone" data-placeholder="phonePlaceholder" placeholder="Votre numéro">
+<main class="container">
 
-<label data-i18n="bloodGroup">Groupe sanguin</label>
-<select id="donorGroup">
+<section id="recherche">
+  <h2 data-fr="🔎 Rechercher du sang" data-en="🔎 Find blood">🔎 Rechercher du sang</h2>
+  <div class="card">
+    <label for="bloodGroup" data-fr="Groupe sanguin" data-en="Blood group">Groupe sanguin</label>
+    <select id="bloodGroup">
+      <option value="">-- Choisir un groupe --</option>
+      <option value="A+">A+</option>
+      <option value="A-">A-</option>
+      <option value="B+">B+</option>
+      <option value="B-">B-</option>
+      <option value="AB+">AB+</option>
+      <option value="AB-">AB-</option>
+      <option value="O+">O+</option>
+      <option value="O-">O-</option>
+    </select>
 
-<option value="" data-i18n="choose">Choisir</option>
-<option>A+</option><option>A-</option>
-<option>B+</option><option>B-</option>
-<option>AB+</option><option>AB-</option>
-<option>O+</option><option>O-</option>
-</select><label data-i18n="city">Ville</label>
-<input type="text" id="donorCity" data-placeholder="cityPlaceholder" placeholder="Votre ville">
+    <label for="region" data-fr="Région" data-en="Region">Région</label>
+    <select id="region" onchange="updateCities()">
+      <option value="">Toutes les régions</option>
+      <option value="Adamaoua">Adamaoua</option>
+      <option value="Centre">Centre</option>
+      <option value="Est">Est</option>
+      <option value="Extrême-Nord">Extrême-Nord</option>
+      <option value="Littoral">Littoral</option>
+      <option value="Nord">Nord</option>
+      <option value="Nord-Ouest">Nord-Ouest</option>
+      <option value="Ouest">Ouest</option>
+      <option value="Sud">Sud</option>
+      <option value="Sud-Ouest">Sud-Ouest</option>
+    </select>
 
-<button class="btn btn-red" style="width:100%" onclick="registerDonor()" data-i18n="register">S'INSCRIRE</button>
+    <label for="city" data-fr="Ville" data-en="City">Ville</label>
+    <select id="city">
+      <option value="">Toutes les villes</option>
+    </select>
 
-<p class="small" data-i18n="donorInfo">L'inscription sera activée avec la base de données sécurisée.</p>
-</div>
-</section><section id="urgence">
-<h2 class="title" data-i18n="emergencyTitle">🚨 Demande urgente de sang</h2>
-<div class="card"><label data-i18n="hospital">Nom de l'hôpital</label>
-<input id="hospital" data-placeholder="hospitalPlaceholder" placeholder="Nom de l'hôpital">
+    <button class="primary" onclick="searchBlood()" data-fr="Rechercher" data-en="Search">Rechercher</button>
+    <button class="secondary" onclick="locateMe()" data-fr="📍 Utiliser ma position GPS" data-en="📍 Use my GPS location">📍 Utiliser ma position GPS</button>
+    <div id="searchResults" class="status" aria-live="polite">
+      Sélectionnez un groupe sanguin pour commencer la recherche.
+    </div>
+  </div>
+</section>
 
-<label data-i18n="requestedGroup">Groupe sanguin demandé</label>
-<select id="urgentGroup">
+<section id="banques">
+  <h2 data-fr="🏥 Banques de sang" data-en="🏥 Blood banks">🏥 Banques de sang</h2>
+  <div class="card">
+    <p data-fr="Retrouvez ici les banques de sang enregistrées sur BLOOD-FIND."
+       data-en="Find blood banks registered on BLOOD-FIND here.">
+      Retrouvez ici les banques de sang enregistrées sur BLOOD-FIND.
+    </p>
+    <div id="banksList" aria-live="polite">
+      Chargement des banques de sang...
+    </div>
+  </div>
+</section>
 
-<option value="" data-i18n="choose">Choisir</option>
-<option>A+</option><option>A-</option>
-<option>B+</option><option>B-</option>
-<option>AB+</option><option>AB-</option>
-<option>O+</option><option>O-</option>
-</select><label data-i18n="city">Ville</label>
-<input id="urgentCity" data-placeholder="cityPlaceholder" placeholder="Ville">
+<section id="donneur">
+  <h2 data-fr="❤️ Devenir donneur volontaire" data-en="❤️ Become a voluntary donor">❤️ Devenir donneur volontaire</h2>
+  <div class="card">
+    <div class="notice"
+      data-fr="L'inscription des donneurs sera activée après la mise en place de l'authentification et de la protection des données personnelles. Aucune donnée n'est envoyée actuellement."
+      data-en="Donor registration will be enabled after authentication and personal data protection are configured. No data is submitted at this time.">
+      L'inscription des donneurs sera activée après la mise en place de l'authentification et de la protection des données personnelles. Aucune donnée n'est envoyée actuellement.
+    </div>
+    <label data-fr="Nom complet" data-en="Full name">Nom complet</label>
+    <input type="text" disabled placeholder="Nom complet">
+    <label data-fr="Téléphone" data-en="Phone">Téléphone</label>
+    <input type="tel" disabled placeholder="Téléphone">
+    <label data-fr="Groupe sanguin" data-en="Blood group">Groupe sanguin</label>
+    <select disabled><option>Choisir un groupe</option></select>
+    <button class="primary" disabled style="opacity:.55"
+      data-fr="Inscription bientôt disponible"
+      data-en="Registration coming soon">Inscription bientôt disponible</button>
+  </div>
+</section>
 
-<label data-i18n="quantity">Nombre de poches</label>
-<input id="quantity" type="number" min="1" data-placeholder="quantityPlaceholder" placeholder="Nombre de poches">
+<section id="urgence">
+  <h2 data-fr="🚨 Demande urgente de sang" data-en="🚨 Emergency blood request">🚨 Demande urgente de sang</h2>
+  <div class="card">
+    <div class="notice"
+      data-fr="L'envoi des demandes urgentes sera activé après la mise en place d'un système sécurisé de vérification et de traitement."
+      data-en="Emergency requests will be enabled after a secure verification and processing system is implemented.">
+      L'envoi des demandes urgentes sera activé après la mise en place d'un système sécurisé de vérification et de traitement.
+    </div>
+    <label data-fr="Nom de l'hôpital" data-en="Hospital name">Nom de l'hôpital</label>
+    <input type="text" disabled>
+    <label data-fr="Groupe sanguin recherché" data-en="Blood group needed">Groupe sanguin recherché</label>
+    <select disabled><option>Choisir un groupe</option></select>
+    <label data-fr="Ville" data-en="City">Ville</label>
+    <input type="text" disabled>
+    <label data-fr="Quantité nécessaire" data-en="Quantity needed">Quantité nécessaire</label>
+    <input type="number" disabled>
+    <button class="primary" disabled style="opacity:.55"
+      data-fr="Service bientôt disponible"
+      data-en="Service coming soon">Service bientôt disponible</button>
+  </div>
+</section>
 
-<label data-i18n="details">Informations complémentaires</label>
+<section id="administration">
+  <h2 data-fr="🔐 Administration" data-en="🔐 Administration">🔐 Administration</h2>
+  <div class="card">
+    <p data-fr="L'espace d'administration sera accessible après la configuration de l'authentification sécurisée des administrateurs."
+       data-en="The administration area will be available after secure administrator authentication is configured.">
+      L'espace d'administration sera accessible après la configuration de l'authentification sécurisée des administrateurs.
+    </p>
+  </div>
+</section>
 
-<textarea id="details" rows="3" data-placeholder="detailsPlaceholder" placeholder="Précisions sur la demande"></textarea><button class="btn btn-red" style="width:100%" onclick="sendRequest()" data-i18n="sendRequest">ENREGISTRER LA DEMANDE</button>
+<section id="contact">
+  <h2 data-fr="📞 Contact" data-en="📞 Contact">📞 Contact</h2>
+  <div class="card contact">
+    <p><strong>BLOOD-FIND</strong></p>
+    <p>📱 <a href="tel:+237690235303">690 235 303</a></p>
+    <p>📱 <a href="tel:+237620247277">620 247 277</a></p>
+    <p>💬 <a href="https://wa.me/237690235303" target="_blank" rel="noopener">WhatsApp</a></p>
+    <p>✉️ <a href="mailto:doumdjes0703@gmail.com">doumdjes0703@gmail.com</a></p>
+    <p data-fr="Cameroun — Ensemble, sauvons des vies."
+       data-en="Cameroon — Together, let's save lives.">Cameroun — Ensemble, sauvons des vies.</p>
+  </div>
+</section>
 
-</div>
-</section><section id="administration">
-<h2 class="title" data-i18n="adminTitle">🔐 Administration</h2>
-<div class="card">
-<p data-i18n="adminText">Espace réservé aux administrateurs de BLOOD-FIND.</p>
-<br>
-<div class="info" data-i18n="adminInfo">La connexion sécurisée et le tableau de bord seront activés avec Supabase.</div>
-</div>
-</section><section id="contact">
-<h2 class="title" data-i18n="contactTitle">📞 Nous contacter</h2>
-<div class="card">
-<p><strong>BLOOD-FIND</strong></p>
-<p data-i18n="contactText">Plateforme de recherche de sang au Cameroun.</p>
-<br>
-<p>📱 <span data-i18n="phone">Téléphone</span> : 690235303</p>
-<p>📱 <span data-i18n="phone">Téléphone</span> : 620247277</p>
-<p>✉️ Email : doumdjes0703@gmail.com</p>
-<br>
-<a class="btn btn-red" href="https://wa.me/237690235303" data-i18n="whatsapp">CONTACTER SUR WHATSAPP</a>
-</div>
-</section></main><footer>
-<strong>BLOOD-FIND 🇨🇲</strong>
-<p data-i18n="footerText">Ensemble, sauvons des vies.</p>
-<p>© 2026 BLOOD-FIND. <span data-i18n="rights">Tous droits réservés.</span></p>
-</footer><script>
-let selectedGroup = "";
+</main>
 
-const translations = {
-fr: {
-home:"Accueil",
-search:"Rechercher du sang",
-banks:"Banques de sang",
-donor:"Devenir donneur",
-emergency:"Demande urgente",
-contact:"Contact",
-admin:"Administration",
-heroTitle:"UNE GOUTTE DE SANG<br>PEUT SAUVER UNE VIE ❤️",
-heroText:"Trouvez des donneurs volontaires et des banques de sang partout au Cameroun.",
-heroButton:"RECHERCHER DU SANG",
-searchTitle:"🔎 Recherche de sang",
-bloodGroup:"Groupe sanguin recherché",
-region:"Région",
-allRegions:"Toutes les régions",
-city:"Ville",
-allCities:"Toutes les villes",
-searchButton:"RECHERCHER",
-locate:"📍 Me localiser",
-banksTitle:"🏥 Banques de sang",
-banksText:"Consultez les banques de sang, les hôpitaux et leurs disponibilités dans les différentes régions du Cameroun.",
-banksInfo:"Les établissements et les stocks réels seront affichés après connexion à la base de données.",
-donorTitle:"❤️ Devenir donneur volontaire",
-donorText:"Votre engagement peut sauver plusieurs vies.",
-fullName:"Nom complet",
-namePlaceholder:"Votre nom complet",
-phone:"Téléphone",
-phonePlaceholder:"Votre numéro",
-choose:"Choisir",
-cityPlaceholder:"Votre ville",
-register:"S'INSCRIRE",
-donorInfo:"L'inscription sera activée avec la base de données sécurisée.",
-emergencyTitle:"🚨 Demande urgente de sang",
-hospital:"Nom de l'hôpital",
-hospitalPlaceholder:"Nom de l'hôpital",
-requestedGroup:"Groupe sanguin demandé",
-quantity:"Nombre de poches",
-quantityPlaceholder:"Nombre de poches",
-details:"Informations complémentaires",
-detailsPlaceholder:"Précisions sur la demande",
-sendRequest:"ENREGISTRER LA DEMANDE",
-adminTitle:"🔐 Administration",
-adminText:"Espace réservé aux administrateurs de BLOOD-FIND.",
-adminInfo:"La connexion sécurisée et le tableau de bord seront activés avec Supabase.",
-contactTitle:"📞 Nous contacter",
-contactText:"Plateforme de recherche de sang au Cameroun.",
-whatsapp:"CONTACTER SUR WHATSAPP",
-footerText:"Ensemble, sauvons des vies.",
-rights:"Tous droits réservés.",
-selectGroup:"Veuillez choisir un groupe sanguin.",
-searchResult:"Recherche du groupe",
-futureResult:". Les résultats réels seront disponibles après connexion à Supabase.",
-locationUnsupported:"La géolocalisation n'est pas disponible.",
-locationSuccess:"Votre position a été détectée :",
-locationError:"Impossible de récupérer votre position. Autorisez la localisation dans votre navigateur.",
-fillForm:"Veuillez remplir tous les champs.",
-donorPrepared:"Formulaire prêt. L'enregistrement sécurisé sera activé lors de la connexion à Supabase.",
-fillUrgent:"Veuillez remplir les informations obligatoires.",
-requestPrepared:"Demande préparée. Son enregistrement sera activé après connexion à Supabase."
-},
-en: {
-home:"Home",
-search:"Search for blood",
-banks:"Blood banks",
-donor:"Become a donor",
-emergency:"Emergency request",
-contact:"Contact",
-admin:"Administration",
-heroTitle:"A DROP OF BLOOD<br>CAN SAVE A LIFE ❤️",
-heroText:"Find voluntary blood donors and blood banks throughout Cameroon.",
-heroButton:"SEARCH FOR BLOOD",
-searchTitle:"🔎 Blood search",
-bloodGroup:"Required blood group",
-region:"Region",
-allRegions:"All regions",
-city:"City",
-allCities:"All cities",
-searchButton:"SEARCH",
-locate:"📍 Locate me",
-banksTitle:"🏥 Blood banks",
-banksText:"Find blood banks, hospitals and their availability across the regions of Cameroon.",
-banksInfo:"Facilities and actual stock information will appear after connecting to the database.",
-donorTitle:"❤️ Become a voluntary donor",
-donorText:"Your commitment can save several lives.",
-fullName:"Full name",
-namePlaceholder:"Your full name",
-phone:"Phone number",
-phonePlaceholder:"Your phone number",
-choose:"Select",
-cityPlaceholder:"Your city",
-register:"REGISTER",
-donorInfo:"Registration will be activated through the secure database.",
-emergencyTitle:"🚨 Emergency blood request",
-hospital:"Hospital name",
-hospitalPlaceholder:"Hospital name",
-requestedGroup:"Required blood group",
-quantity:"Number of blood bags",
-quantityPlaceholder:"Number of bags",
-details:"Additional information",
-detailsPlaceholder:"Details about the request",
-sendRequest:"SUBMIT REQUEST",
-adminTitle:"🔐 Administration",
-adminText:"Area reserved for BLOOD-FIND administrators.",
-adminInfo:"Secure login and the dashboard will be activated with Supabase.",
-contactTitle:"📞 Contact us",
-contactText:"Blood search platform in Cameroon.",
-whatsapp:"CONTACT US ON WHATSAPP",
-footerText:"Together, let's save lives.",
-rights:"All rights reserved.",
-selectGroup:"Please select a blood group.",
-searchResult:"Searching for blood group",
-futureResult:". Live results will be available after connecting to Supabase.",
-locationUnsupported:"Geolocation is not available.",
-locationSuccess:"Your location was detected:",
-locationError:"Unable to retrieve your location. Please allow location access in your browser.",
-fillForm:"Please complete all fields.",
-donorPrepared:"Form ready. Secure registration will be activated after connecting to Supabase.",
-fillUrgent:"Please complete all required information.",
-requestPrepared:"Request prepared. Submission will be activated after connecting to Supabase."
-}
-};
+<footer>
+  <strong>BLOOD-FIND</strong><br>
+  <span data-fr="Plateforme de recherche de sang au Cameroun"
+        data-en="Blood search platform in Cameroon">Plateforme de recherche de sang au Cameroun</span><br>
+  © 2026 BLOOD-FIND — <span data-fr="Tous droits réservés" data-en="All rights reserved">Tous droits réservés</span>
+</footer>
 
-const regionNames = {
-fr:{
-Adamaoua:"Adamaoua",
-Centre:"Centre",
-Est:"Est",
-ExtremeNord:"Extrême-Nord",
-Littoral:"Littoral",
-Nord:"Nord",
-NordOuest:"Nord-Ouest",
-Ouest:"Ouest",
-Sud:"Sud",
-SudOuest:"Sud-Ouest"
-},
-en:{
-Adamaoua:"Adamawa",
-Centre:"Centre",
-Est:"East",
-ExtremeNord:"Far North",
-Littoral:"Littoral",
-Nord:"North",
-NordOuest:"Northwest",
-Ouest:"West",
-Sud:"South",
-SudOuest:"Southwest"
-}
-};
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+/* CONNEXION SUPABASE */
+const SUPABASE_URL = "https://ydwwvpjaiaiplxklyxzl.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_7ucjLi8FeZlCjj9otb-ggA_PapPES-h";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
 
 let currentLanguage = localStorage.getItem("bloodFindLanguage") || "fr";
+let banks = [];
+let stocks = [];
 
-function applyLanguage() {
-const t = translations[currentLanguage];
+const citiesByRegion = {
+  "Adamaoua":["Ngaoundéré","Meiganga","Tibati","Banyo"],
+  "Centre":["Yaoundé","Mbalmayo","Obala","Bafia","Akonolinga","Nanga-Eboko"],
+  "Est":["Bertoua","Batouri","Abong-Mbang","Yokadouma"],
+  "Extrême-Nord":["Maroua","Kousseri","Mokolo","Yagoua","Kaélé","Mora"],
+  "Littoral":["Douala","Edéa","Nkongsamba","Dibombari"],
+  "Nord":["Garoua","Guider","Figuil","Poli","Tcholliré"],
+  "Nord-Ouest":["Bamenda","Kumbo","Wum","Mbengwi","Ndop"],
+  "Ouest":["Bafoussam","Dschang","Mbouda","Bangangté","Foumban"],
+  "Sud":["Ebolowa","Kribi","Sangmélima","Ambam"],
+  "Sud-Ouest":["Buea","Limbe","Kumba","Mamfe","Tiko"]
+};
 
-document.documentElement.lang = currentLanguage;
-document.title = currentLanguage === "fr"
-? "BLOOD-FIND | Le sang peut sauver une vie"
-: "BLOOD-FIND | Every drop can save a life";
+const translations = {
+  fr:{
+    loading:"Chargement des banques de sang...",
+    loadError:"Impossible de charger les données. Vérifiez votre connexion et réessayez.",
+    noBanks:"Aucune banque de sang enregistrée pour le moment.",
+    chooseGroup:"Veuillez choisir un groupe sanguin.",
+    noResults:"Aucun stock correspondant n'a été trouvé.",
+    results:"Résultat(s) trouvé(s)",
+    available:"Unité(s) disponible(s)",
+    noStock:"Stock non renseigné",
+    address:"Adresse",
+    city:"Ville",
+    region:"Région",
+    gpsWait:"Recherche de votre position...",
+    gpsError:"Impossible d'obtenir votre position GPS.",
+    gpsUnsupported:"La géolocalisation n'est pas disponible sur cet appareil.",
+    gpsDone:"Votre position a été obtenue. Choisissez un groupe sanguin puis lancez la recherche.",
+    unknown:"Non renseigné"
+  },
+  en:{
+    loading:"Loading blood banks...",
+    loadError:"Unable to load data. Check your connection and try again.",
+    noBanks:"No blood banks registered yet.",
+    chooseGroup:"Please select a blood group.",
+    noResults:"No matching blood stock was found.",
+    results:"Result(s) found",
+    available:"unit(s) available",
+    noStock:"Stock not provided",
+    address:"Address",
+    city:"City",
+    region:"Region",
+    gpsWait:"Finding your location...",
+    gpsError:"Unable to obtain your GPS location.",
+    gpsUnsupported:"Geolocation is not available on this device.",
+    gpsDone:"Your location has been obtained. Choose a blood group and search.",
+    unknown:"Not provided"
+  }
+};
 
-document.querySelectorAll("[data-i18n]").forEach(element => {
-const key = element.dataset.i18n;
-if(t[key]) element.innerHTML = t[key];
-});
-
-document.querySelectorAll("[data-placeholder]").forEach(element => {
-const key = element.dataset.placeholder;
-if(t[key]) element.placeholder = t[key];
-});
-
-document.getElementById("langButton").textContent =
-currentLanguage === "fr" ? "🇬🇧 EN" : "🇫🇷 FR";
-
-const region = document.getElementById("region");
-Array.from(region.options).forEach(option => {
-if(option.value && regionNames[currentLanguage][option.value]){
-option.textContent = regionNames[currentLanguage][option.value];
+function t(key){
+  return translations[currentLanguage][key] || key;
 }
-});
 
-loadCities();
-
-const result = document.getElementById("result");
-if(!result.classList.contains("hidden")){
-result.textContent = t.searchResult + " " + selectedGroup + t.futureResult;
-}
+function normalize(value){
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g,"");
 }
 
 function changeLanguage(){
-currentLanguage = currentLanguage === "fr" ? "en" : "fr";
-localStorage.setItem("bloodFindLanguage",currentLanguage);
-applyLanguage();
+  currentLanguage = currentLanguage === "fr" ? "en" : "fr";
+  localStorage.setItem("bloodFindLanguage",currentLanguage);
+  applyLanguage();
+  renderBanks();
+  document.getElementById("languageButton").textContent =
+    currentLanguage === "fr" ? "English" : "Français";
+}
+
+function applyLanguage(){
+  document.documentElement.lang = currentLanguage;
+  document.querySelectorAll("[data-fr][data-en]").forEach(element=>{
+    element.textContent = element.getAttribute("data-" + currentLanguage);
+  });
 }
 
 function toggleMenu(){
-const menu = document.getElementById("menu");
-menu.style.display = menu.style.display === "block" ? "none" : "block";
+  document.getElementById("menu").classList.toggle("open");
 }
 
-function chooseGroup(element){
-document.querySelectorAll(".group").forEach(g=>g.classList.remove("active"));
-element.classList.add("active");
-selectedGroup = element.textContent;
-}
-
-const cities = {
-Adamaoua:["Ngaoundéré","Meiganga","Tibati","Banyo","Tignère"],
-Centre:["Yaoundé","Mbalmayo","Obala","Bafia","Nanga-Eboko","Monatélé","Eséka"],
-Est:["Bertoua","Batouri","Abong-Mbang","Yokadouma","Garoua-Boulaï"],
-ExtremeNord:["Maroua","Kousséri","Mora","Mokolo","Yagoua","Kaélé"],
-Littoral:["Douala","Edéa","Nkongsamba","Loum","Manjo","Melong"],
-Nord:["Garoua","Guider","Figuil","Pitoa","Tcholliré"],
-NordOuest:["Bamenda","Kumbo","Wum","Ndop","Mbengwi","Fundong"],
-Ouest:["Bafoussam","Dschang","Mbouda","Foumban","Bangangté","Bafang"],
-Sud:["Ebolowa","Kribi","Sangmélima","Ambam","Lolodorf"],
-SudOuest:["Buea","Limbe","Kumba","Tiko","Mamfe","Muyuka"]
-};
-
-function loadCities(){
-const region = document.getElementById("region").value;
-const select = document.getElementById("ville");
-const previousValue = select.value;
-const t = translations[currentLanguage];
-
-select.innerHTML = "";
-const first = document.createElement("option");
-first.value = "";
-first.textContent = t.allCities;
-select.appendChild(first);
-
-(cities[region] || []).forEach(city => {
-const option = document.createElement("option");
-option.value = city;
-option.textContent = city;
-select.appendChild(option);
+document.querySelectorAll("nav a").forEach(link=>{
+  link.addEventListener("click",()=>{
+    document.getElementById("menu").classList.remove("open");
+  });
 });
 
-if((cities[region] || []).includes(previousValue)){
-select.value = previousValue;
-}
+function updateCities(){
+  const region = document.getElementById("region").value;
+  const citySelect = document.getElementById("city");
+  citySelect.innerHTML = '<option value="">'+
+    (currentLanguage === "fr" ? "Toutes les villes" : "All cities")+
+    '</option>';
+
+  if(region && citiesByRegion[region]){
+    citiesByRegion[region].forEach(city=>{
+      const option = document.createElement("option");
+      option.value = city;
+      option.textContent = city;
+      citySelect.appendChild(option);
+    });
+  }
 }
 
+/* CHARGEMENT DES BANQUES ET DES STOCKS */
+async function loadBloodData(){
+  const banksContainer = document.getElementById("banksList");
+  banksContainer.textContent = t("loading");
+
+  try{
+    const [banksResponse,stocksResponse] = await Promise.all([
+      supabaseClient
+        .from("banques_sang")
+        .select("id,nom,region,ville,adresse,latitude,longitude"),
+      supabaseClient
+        .from("stocks_sang")
+        .select("id,banque_id,groupe_sanguin,quantite,derniere_maj")
+    ]);
+
+    if(banksResponse.error) throw banksResponse.error;
+    if(stocksResponse.error) throw stocksResponse.error;
+
+    banks = banksResponse.data || [];
+    stocks = stocksResponse.data || [];
+
+    renderBanks();
+
+    const citySelect = document.getElementById("city");
+    const regionSelect = document.getElementById("region");
+
+    // Les villes présentes dans la base sont ajoutées à la liste
+    // lorsqu'elles correspondent à la région sélectionnée.
+    updateCities();
+
+    if(banks.length === 0){
+      banksContainer.textContent = t("noBanks");
+    }
+  }catch(error){
+    console.error("Erreur Supabase :",error);
+    banksContainer.textContent = t("loadError");
+    document.getElementById("searchResults").textContent = t("loadError");
+  }
+}
+
+function getBankStocks(bankId){
+  return stocks.filter(stock=>String(stock.banque_id) === String(bankId));
+}
+
+function renderBanks(){
+  const container = document.getElementById("banksList");
+  container.innerHTML = "";
+
+  if(!banks.length){
+    container.textContent = t("noBanks");
+    return;
+  }
+
+  banks.forEach(bank=>{
+    const card = document.createElement("div");
+    card.className = "bank";
+
+    const title = document.createElement("h3");
+    title.textContent = bank.nom || "Banque de sang";
+    card.appendChild(title);
+
+    const region = document.createElement("p");
+    region.textContent = t("region")+": "+(bank.region || t("unknown"));
+    card.appendChild(region);
+
+    const city = document.createElement("p");
+    city.textContent = t("city")+": "+(bank.ville || t("unknown"));
+    card.appendChild(city);
+
+    const address = document.createElement("p");
+    address.textContent = t("address")+": "+(bank.adresse || t("unknown"));
+    card.appendChild(address);
+
+    const stockTitle = document.createElement("strong");
+    stockTitle.textContent = currentLanguage === "fr" ? "Stocks :" : "Stocks:";
+    card.appendChild(stockTitle);
+
+    const stockList = document.createElement("div");
+    stockList.className = "stock-list";
+
+    const bankStocks = getBankStocks(bank.id);
+
+    if(bankStocks.length){
+      bankStocks.forEach(stock=>{
+        const badge = document.createElement("span");
+        badge.className = "stock";
+        badge.textContent =
+          (stock.groupe_sanguin || "?")+" : "+
+          (stock.quantite ?? "?")+" "+t("available");
+        stockList.appendChild(badge);
+      });
+    }else{
+      const noStock = document.createElement("span");
+      noStock.textContent = t("noStock");
+      stockList.appendChild(noStock);
+    }
+
+    card.appendChild(stockList);
+    container.appendChild(card);
+  });
+}
+
+/* RECHERCHE PAR GROUPE, REGION ET VILLE */
 function searchBlood(){
-const t = translations[currentLanguage];
+  const group = document.getElementById("bloodGroup").value;
+  const region = document.getElementById("region").value;
+  const city = document.getElementById("city").value;
+  const resultsContainer = document.getElementById("searchResults");
 
-if(!selectedGroup){
-alert(t.selectGroup);
-return;
+  resultsContainer.innerHTML = "";
+
+  if(!group){
+    resultsContainer.textContent = t("chooseGroup");
+    return;
+  }
+
+  const matchingStocks = stocks.filter(stock=>
+    normalize(stock.groupe_sanguin) === normalize(group)
+  );
+
+  const results = matchingStocks.map(stock=>{
+    const bank = banks.find(item=>
+      String(item.id) === String(stock.banque_id)
+    );
+    return bank ? {bank,stock} : null;
+  }).filter(item=>{
+    if(!item) return false;
+    if(region && normalize(item.bank.region) !== normalize(region)) return false;
+    if(city && normalize(item.bank.ville) !== normalize(city)) return false;
+    return true;
+  });
+
+  if(!results.length){
+    resultsContainer.textContent = t("noResults");
+    return;
+  }
+
+  const heading = document.createElement("strong");
+  heading.textContent = results.length+" "+t("results");
+  resultsContainer.appendChild(heading);
+
+  results.forEach(item=>{
+    const card = document.createElement("div");
+    card.className = "bank";
+
+    const name = document.createElement("h3");
+    name.textContent = item.bank.nom || "Banque de sang";
+    card.appendChild(name);
+
+    const details = document.createElement("p");
+    details.textContent =
+      (item.bank.ville || t("unknown"))+" — "+
+      (item.bank.region || t("unknown"));
+    card.appendChild(details);
+
+    const quantity = document.createElement("p");
+    quantity.textContent =
+      item.stock.groupe_sanguin+" : "+
+      (item.stock.quantite ?? "?")+" "+t("available");
+    card.appendChild(quantity);
+
+    if(item.bank.adresse){
+      const address = document.createElement("p");
+      address.textContent = t("address")+": "+item.bank.adresse;
+      card.appendChild(address);
+    }
+
+    resultsContainer.appendChild(card);
+  });
 }
 
-const result = document.getElementById("result");
-result.classList.remove("hidden");
-result.textContent = t.searchResult + " " + selectedGroup + t.futureResult;
-}
-
+/* LOCALISATION GPS */
 function locateMe(){
-const t = translations[currentLanguage];
+  const result = document.getElementById("searchResults");
 
-if(!navigator.geolocation){
-alert(t.locationUnsupported);
-return;
+  if(!navigator.geolocation){
+    result.textContent = t("gpsUnsupported");
+    return;
+  }
+
+  result.textContent = t("gpsWait");
+
+  navigator.geolocation.getCurrentPosition(position=>{
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+
+    let nearestBank = null;
+    let shortestDistance = Infinity;
+
+    banks.forEach(bank=>{
+      if(bank.latitude == null || bank.longitude == null) return;
+
+      const distance = calculateDistance(
+        latitude,longitude,
+        Number(bank.latitude),Number(bank.longitude)
+      );
+
+      if(distance < shortestDistance){
+        shortestDistance = distance;
+        nearestBank = bank;
+      }
+    });
+
+    if(nearestBank){
+      const regionSelect = document.getElementById("region");
+      const matchingRegion = Array.from(regionSelect.options).find(option=>
+        normalize(option.value) === normalize(nearestBank.region)
+      );
+
+      if(matchingRegion){
+        regionSelect.value = matchingRegion.value;
+        updateCities();
+      }
+
+      const citySelect = document.getElementById("city");
+      const matchingCity = Array.from(citySelect.options).find(option=>
+        normalize(option.value) === normalize(nearestBank.ville)
+      );
+
+      if(matchingCity) citySelect.value = matchingCity.value;
+
+      result.textContent =
+        (currentLanguage === "fr" ? "Banque la plus proche trouvée : " :
+        "Nearest bank found: ")+
+        nearestBank.nom+" ("+shortestDistance.toFixed(1)+" km). "+
+        t("gpsDone");
+    }else{
+      result.textContent = t("gpsDone");
+    }
+  },()=>{
+    result.textContent = t("gpsError");
+  },{
+    enableHighAccuracy:true,
+    timeout:12000,
+    maximumAge:60000
+  });
 }
 
-navigator.geolocation.getCurrentPosition(
-pos => {
-alert(t.locationSuccess + " " +
-pos.coords.latitude.toFixed(4) + ", " +
-pos.coords.longitude.toFixed(4));
-},
-() => alert(t.locationError)
-);
+function calculateDistance(lat1,lon1,lat2,lon2){
+  const radius = 6371;
+  const toRad = value=>value*Math.PI/180;
+  const dLat = toRad(lat2-lat1);
+  const dLon = toRad(lon2-lon1);
+
+  const a =
+    Math.sin(dLat/2)**2+
+    Math.cos(toRad(lat1))*
+    Math.cos(toRad(lat2))*
+    Math.sin(dLon/2)**2;
+
+  return 2*radius*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
 }
 
-function registerDonor(){
-const t = translations[currentLanguage];
-
-if(!document.getElementById("donorName").value.trim() ||
-!document.getElementById("donorPhone").value.trim() ||
-!document.getElementById("donorGroup").value ||
-!document.getElementById("donorCity").value.trim()){
-alert(t.fillForm);
-return;
-}
-
-alert(t.donorPrepared);
-}
-
-function sendRequest(){
-const t = translations[currentLanguage];
-
-if(!document.getElementById("hospital").value.trim() ||
-!document.getElementById("urgentGroup").value ||
-!document.getElementById("urgentCity").value.trim() ||
-!document.getElementById("quantity").value ||
-Number(document.getElementById("quantity").value) < 1){
-alert(t.fillUrgent);
-return;
-}
-
-alert(t.requestPrepared);
-}
-
+/* INITIALISATION */
 applyLanguage();
-</script></body>
+document.getElementById("languageButton").textContent =
+  currentLanguage === "fr" ? "English" : "Français";
+loadBloodData();
+</script>
+
+</body>
 </html>
