@@ -3,13 +3,23 @@ name: Build BLOOD-FIND Android APK
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Recuperer le depot
+      - name: Recuperer le depot GitHub
         uses: actions/checkout@v4
+
+      - name: Verifier le logo
+        run: |
+          test -f blood-find-icon-512.png || {
+            echo "ERREUR : logo BLOOD-FIND introuvable"
+            exit 1
+          }
 
       - name: Installer Java
         uses: actions/setup-java@v4
@@ -22,27 +32,37 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Preparer Capacitor
+      - name: Creer le projet Android
         run: |
           mkdir blood-find-app
           cd blood-find-app
-          npm init -y
-          npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6 @capacitor/assets sharp
-          mkdir www assets
-          echo '<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"></head><body></body></html>' > www/index.html
-          npx cap init BLOOD-FIND com.bloodfind.cameroon --web-dir www
-          npx cap add android
 
-      - name: Integrer le logo BLOOD-FIND
+          npm init -y
+
+          npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6 @capacitor/assets sharp
+
+          mkdir www
+          mkdir assets
+
+          echo '<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"></head><body></body></html>' > www/index.html
+
+          npx cap init BLOOD-FIND com.bloodfind.cameroon --web-dir www
+
+      - name: Integrer le logo officiel
         run: |
-          node -e "require('./blood-find-app/node_modules/sharp')('blood-find-icon-512.png').resize(1024,1024).png().toFile('blood-find-app/assets/logo.png').then(()=>console.log('Logo prepare'))"
+          node -e "require('./blood-find-app/node_modules/sharp')('blood-find-icon-512.png').resize(1024,1024).png().toFile('blood-find-app/assets/logo.png').then(()=>console.log('Logo BLOOD-FIND prepare'))"
+
+      - name: Creer le projet Android
+        working-directory: blood-find-app
+        run: |
+          npx cap add android
 
       - name: Generer les icones Android
         working-directory: blood-find-app
         run: |
-          npx capacitor-assets generate --android
+          npx capacitor-assets generate --android --iconBackgroundColor '#b5122b'
 
-      - name: Configurer l'application
+      - name: Configurer BLOOD-FIND
         working-directory: blood-find-app
         run: |
           cat > capacitor.config.json <<'EOF'
@@ -56,16 +76,19 @@ jobs:
             }
           }
           EOF
+
           npx cap sync android
 
-      - name: Construire APK
+      - name: Construire APK Android
         working-directory: blood-find-app/android
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      - name: Publier APK
+      - name: Publier le fichier APK
         uses: actions/upload-artifact@v4
         with:
           name: BLOOD-FIND-APK
           path: blood-find-app/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 7
